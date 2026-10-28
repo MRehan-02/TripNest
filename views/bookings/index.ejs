@@ -1,0 +1,45 @@
+<% layout("/layouts/boilerplate") %>
+<%
+  const badge = { Pending: "warning text-dark", Confirmed: "success", Cancelled: "secondary" };
+  const fmt = (d) => new Date(d).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
+%>
+
+<h3 class="fw-bold mt-3 mb-3">My Bookings</h3>
+
+<% if(bookings.length === 0){ %>
+  <div class="text-center py-5 my-4">
+    <i class="fa-regular fa-calendar fa-3x text-muted mb-3"></i>
+    <h4 class="fw-bold">No bookings yet</h4>
+    <p class="text-muted">Find a stay and book your first trip.</p>
+    <a href="/listings" class="btn btn-rose rounded-3 px-4">Explore stays</a>
+  </div>
+<% } else { %>
+  <div class="row g-3">
+    <% for(let b of bookings){ %>
+      <div class="col-12 col-md-6">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">
+                <% if(b.listing){ %>
+                  <a href="/listings/<%= b.listing._id %>" class="text-decoration-none"><%= b.listing.title %></a>
+                <% } else { %>
+                  Listing removed
+                <% } %>
+              </h5>
+              <span class="badge bg-<%= badge[b.status] %>"><%= b.status %></span>
+            </div>
+            <p class="mb-1 small text-muted"><i class="fa-regular fa-calendar me-1"></i><%= fmt(b.checkIn) %> &rarr; <%= fmt(b.checkOut) %> (<%= b.nights %> night<%= b.nights === 1 ? "" : "s" %>)</p>
+            <p class="mb-1 small text-muted"><i class="fa-solid fa-user-group me-1"></i><%= b.guests %> guest<%= b.guests === 1 ? "" : "s" %></p>
+            <p class="mb-2 small">&#8377; <%= (b.subtotal || 0).toLocaleString("en-IN") %> + &#8377; <%= (b.gst || 0).toLocaleString("en-IN") %> GST = <b>&#8377; <%= (b.total || 0).toLocaleString("en-IN") %></b></p>
+            <% if(b.status !== "Cancelled"){ %>
+              <form method="POST" action="/bookings/<%= b._id %>/cancel?_method=PUT" onsubmit="return confirm('Cancel this booking?');">
+                <button class="btn btn-sm btn-outline-danger">Cancel booking</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+<% } %>

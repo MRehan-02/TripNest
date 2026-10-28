@@ -1,0 +1,11 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-5">
+    <div class="col-12 col-md-6 offset-md-3 text-center p-4">
+        <% const is404 = (typeof statusCode !== "undefined" && statusCode === 404); %>
+        <div class="display-1 fw-bold text-danger"><%= (typeof statusCode !== "undefined") ? statusCode : "Oops" %></div>
+        <h4 class="fw-bold mb-2"><%= is404 ? "Page not found" : "Something went wrong" %></h4>
+        <p class="text-muted mb-4"><%= err.message %></p>
+        <a href="/listings" class="btn btn-rose rounded-3 px-4"><i class="fa-solid fa-house me-1"></i> Go home</a>
+    </div>
+</div>

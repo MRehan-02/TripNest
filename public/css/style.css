@@ -1,0 +1,420 @@
+/* TripNest Global Styles */
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    color: #222222;
+}
+
+.container-main {
+    flex: 1;
+}
+
+/* Brand & Navbar */
+.navbar {
+    background-color: #ffffff;
+    height: 5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.brand-icon {
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.brand-title {
+    color: #fe424d;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.host-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222222 !important;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem !important;
+    transition: background-color 0.2s;
+}
+
+.host-link:hover {
+    background-color: #f1f1f1;
+}
+
+/* Enhanced Pill Search Bar */
+.search-bar {
+    border: 1px solid #dddddd;
+    border-radius: 3rem;
+    padding: 0.25rem 0.5rem 0.25rem 1.25rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease;
+    background: #ffffff;
+    max-width: 420px;
+    width: 100%;
+}
+
+.search-bar:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.search-input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 0.875rem;
+    padding-left: 0;
+    background: transparent;
+}
+
+.btn-search {
+    background-color: #fe424d !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    transition: transform 0.15s ease;
+}
+
+.btn-search:hover {
+    background-color: #e03943 !important;
+    transform: scale(1.05);
+}
+
+/* User Menu & Avatar */
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dddddd;
+    border-radius: 2rem;
+    padding: 0.35rem 0.6rem 0.35rem 0.9rem !important;
+    background-color: #ffffff;
+    transition: box-shadow 0.2s;
+}
+
+.user-profile-btn:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: #222222;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+/* Category Filters Bar */
+.filters-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ebebeb;
+    background-color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+#filters {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 2rem;
+}
+
+#filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter {
+    text-align: center;
+    opacity: 0.7;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+}
+
+.filter:hover, .filter.active {
+    opacity: 1;
+    color: #fe424d;
+    border-bottom-color: #fe424d;
+}
+
+.filter i {
+    font-size: 1.25rem;
+}
+
+.filter p {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0.25rem 0 0 0;
+    white-space: nowrap;
+}
+
+/* Tax Toggle Switch */
+.tax-toggle {
+    border: 1px solid #dddddd;
+    border-radius: 2rem;
+    padding: 0.65rem 1.25rem;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    white-space: nowrap;
+    margin-left: 1rem;
+}
+
+.tax-toggle .form-check-input:checked {
+    background-color: #222222;
+    border-color: #222222;
+}
+
+.tax-toggle label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tax-info {
+    display: none;
+    color: #717171;
+    font-weight: 500;
+}
+
+/* Listing Cards */
+.listing-link {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.listing-card {
+    border: none !important;
+    border-radius: 1.25rem !important;
+    background-color: transparent !important;
+    margin-bottom: 1.5rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-img-container {
+    position: relative;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    aspect-ratio: 13 / 10;
+    background-color: #e5e7eb;
+}
+
+.listing-card .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    transition: transform 0.4s ease;
+}
+
+.listing-card:hover .card-img-top {
+    transform: scale(1.04);
+}
+
+.badge-guest-fav {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    color: #222222;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 0.65rem;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.35rem;
+    padding: 0;
+    cursor: pointer;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+    transition: transform 0.15s ease;
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.15);
+}
+
+.rating-badge {
+    color: #222222;
+    font-size: 0.85rem;
+}
+
+/* Custom Buttons */
+.btn-rose {
+    background-color: #fe424d !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.btn-rose:hover {
+    background-color: #e03943 !important;
+    color: #ffffff !important;
+}
+
+.edit-btn, .add-btn {
+    background-color: #fe424d !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Show Page */
+.show-img {
+    width: 100%;
+    height: 320px;
+    max-height: 45vh;
+    border-radius: 1.25rem;
+    object-fit: cover;
+}
+
+/* no zoom effect on the details page image */
+.show-card:hover .card-img-top {
+    transform: none;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 1.25rem;
+}
+
+/* Footer */
+footer {
+    background-color: #ffffff;
+    border-top: 1px solid #ebebeb;
+    padding: 1.75rem 0;
+    margin-top: auto;
+}
+
+.hover-underline:hover {
+    text-decoration: underline !important;
+}
+
+/* ---------- Added: filters as links, wishlist heart, pagination ---------- */
+a.filter {
+    color: inherit;
+    text-decoration: none;
+}
+
+.wishlist-btn i.fa-solid.text-danger {
+    color: #fe424d !important;
+}
+
+.theme-toggle {
+    border: 1px solid #dddddd;
+    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    color: inherit;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #fe424d;
+    border-color: #fe424d;
+    color: #ffffff;
+}
+
+.pagination .page-link {
+    color: #fe424d;
+}
+
+/* ---------- Added: mobile ---------- */
+@media (max-width: 767.98px) {
+    .navbar {
+        height: auto;
+        padding: 0.5rem 0;
+    }
+
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .tax-toggle {
+        margin-left: 0;
+    }
+
+    .show-img {
+        height: 220px;
+    }
+
+    #map {
+        height: 280px;
+    }
+}
+
+/* ---------- Added: dark mode (Bootstrap 5.3 data-bs-theme) ---------- */
+[data-bs-theme="dark"] body {
+    background-color: #121212;
+    color: #e6e6e6;
+}
+
+[data-bs-theme="dark"] .navbar,
+[data-bs-theme="dark"] footer,
+[data-bs-theme="dark"] .filters-container,
+[data-bs-theme="dark"] .tax-toggle,
+[data-bs-theme="dark"] .search-bar,
+[data-bs-theme="dark"] .user-profile-btn {
+    background-color: #1e1e1e;
+    border-color: #333333;
+}
+
+[data-bs-theme="dark"] .host-link {
+    color: #e6e6e6 !important;
+}
+
+[data-bs-theme="dark"] .host-link:hover {
+    background-color: #2a2a2a;
+}
+
+[data-bs-theme="dark"] .user-avatar {
+    background-color: #fe424d;
+}
+
+[data-bs-theme="dark"] .rating-badge,
+[data-bs-theme="dark"] .text-dark {
+    color: #e6e6e6 !important;
+}
+
+[data-bs-theme="dark"] .theme-toggle {
+    border-color: #444444;
+}
+
+[data-bs-theme="dark"] .alert-light {
+    background-color: #1e1e1e;
+    border-color: #333333 !important;
+    color: #e6e6e6;
+}

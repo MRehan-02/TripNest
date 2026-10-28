@@ -1,0 +1,185 @@
+<% layout("/layouts/boilerplate") %>
+
+<%
+  // helper: build a url that keeps the current search/filter/sort
+  const qs = (over = {}) => {
+    const params = new URLSearchParams();
+    const merged = Object.assign({}, query, over);
+    for (const k of Object.keys(merged)) {
+      if (merged[k] !== "" && merged[k] !== undefined && merged[k] !== null) params.set(k, merged[k]);
+    }
+    const str = params.toString();
+    return basePath + (str ? "?" + str : "");
+  };
+  const cats = [
+    { key: "trending", label: "Trending", icon: "fa-solid fa-fire" },
+    { key: "rooms", label: "Rooms", icon: "fa-solid fa-bed" },
+    { key: "cities", label: "Iconic Cities", icon: "fa-solid fa-city" },
+    { key: "mountains", label: "Mountains", icon: "fa-solid fa-mountain-sun" },
+    { key: "castles", label: "Castles", icon: "fa-brands fa-fort-awesome" },
+    { key: "arctic", label: "Arctic", icon: "fa-regular fa-snowflake" },
+    { key: "camping", label: "Camping", icon: "fa-solid fa-campground" },
+    { key: "farms", label: "Farms", icon: "fa-solid fa-tractor" },
+    { key: "pools", label: "Amazing Pools", icon: "fa-solid fa-person-swimming" },
+    { key: "domes", label: "Domes", icon: "fa-solid fa-igloo" },
+    { key: "boats", label: "Boats", icon: "fa-solid fa-sailboat" }
+  ];
+%>
+
+<% if(heading){ %>
+  <h3 class="fw-bold mt-3 mb-3"><%= heading %></h3>
+<% } %>
+
+<% if(showFilters){ %>
+<!-- Category Filters & Tax Switch -->
+<div class="filters-container">
+  <div id="filters">
+    <% for(let c of cats){ %>
+      <a href="<%= qs({ category: c.key === 'trending' ? '' : c.key, page: '' }) %>"
+         class="filter <%= ((query.category || 'trending') === c.key) ? 'active' : '' %>">
+        <div><i class="<%= c.icon %>"></i></div>
+        <p><%= c.label %></p>
+      </a>
+    <% } %>
+  </div>
+
+  <!-- Tax Toggle Switch -->
+  <div class="tax-toggle">
+    <div class="form-check form-switch form-check-reverse">
+      <input class="form-check-input" type="checkbox" role="switch" id="taxSwitch">
+      <label class="form-check-label" for="taxSwitch">Display total after taxes</label>
+    </div>
+  </div>
+</div>
+
+<!-- Price filter & sort -->
+<form method="GET" action="<%= basePath %>" class="row g-2 align-items-end mb-4">
+  <input type="hidden" name="q" value="<%= query.q %>">
+  <input type="hidden" name="category" value="<%= query.category %>">
+  <div class="col-6 col-md-2">
+    <label for="minPrice" class="form-label small fw-semibold mb-1">Min price (&#8377;)</label>
+    <input type="number" min="0" name="minPrice" id="minPrice" class="form-control" value="<%= query.minPrice %>" placeholder="0">
+  </div>
+  <div class="col-6 col-md-2">
+    <label for="maxPrice" class="form-label small fw-semibold mb-1">Max price (&#8377;)</label>
+    <input type="number" min="0" name="maxPrice" id="maxPrice" class="form-control" value="<%= query.maxPrice %>" placeholder="10000">
+  </div>
+  <div class="col-12 col-md-3">
+    <label for="sort" class="form-label small fw-semibold mb-1">Sort by</label>
+    <select name="sort" id="sort" class="form-select">
+      <option value="" <%= query.sort === "" ? "selected" : "" %>>Newest first</option>
+      <option value="price_asc" <%= query.sort === "price_asc" ? "selected" : "" %>>Price: low to high</option>
+      <option value="price_desc" <%= query.sort === "price_desc" ? "selected" : "" %>>Price: high to low</option>
+    </select>
+  </div>
+  <div class="col-12 col-md-auto d-flex gap-2">
+    <button class="btn btn-rose rounded-3 px-4">Apply</button>
+    <a href="<%= basePath %>" class="btn btn-outline-secondary rounded-3">Clear</a>
+  </div>
+</form>
+<% } %>
+
+<% if(allListings.length === 0){ %>
+  <!-- Empty state -->
+  <div class="text-center py-5 my-4">
+    <i class="fa-regular fa-face-frown fa-3x text-muted mb-3"></i>
+    <h4 class="fw-bold">No listings found</h4>
+    <p class="text-muted">Try a different search, category or price range.</p>
+    <a href="<%= showFilters ? basePath : '/listings' %>" class="btn btn-rose rounded-3 px-4">
+      <%= showFilters ? "Clear filters" : "Explore stays" %>
+    </a>
+  </div>
+<% } else { %>
+  <% if(showFilters){ %>
+    <p class="text-muted small"><%= totalCount %> stay<%= totalCount === 1 ? "" : "s" %> found</p>
+  <% } %>
+<% } %>
+
+<!-- All Listings Grid -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
+  <% for(let listing of allListings){ %>
+    <%
+      const ratings = (listing.reviews || []).map(r => r.rating).filter(r => typeof r === "number");
+      const avg = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : null;
+      const saved = wishIds.includes(String(listing._id));
+    %>
+    <div class="col">
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card listing-card h-100">
+          <div class="card-img-container">
+            <img src="<%= (listing.image && listing.image.url) ? listing.image.url : 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=800&q=60' %>"
+                 class="card-img-top"
+                 alt="<%= listing.title %>" loading="lazy">
+            <span class="badge-guest-fav">
+              <%= (listing.price && listing.price > 2000) ? 'Guest Favorite' : 'Trending Stay' %>
+            </span>
+            <% if(!currUser || currUser.role === "user"){ %>
+              <button type="button" class="wishlist-btn" aria-label="Save to wishlist"
+                      data-id="<%= listing._id %>" data-auth="<%= !!currUser %>" data-remove="<%= basePath === '/wishlist' %>"
+                      onclick="toggleWishlist(event, this)">
+                <i class="<%= saved ? 'fa-solid text-danger' : 'fa-regular' %> fa-heart"></i>
+              </button>
+            <% } %>
+          </div>
+
+          <div class="card-body pt-2 px-1">
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="card-title mb-0 fw-bold text-truncate"><%= listing.title %></h6>
+              <div class="rating-badge small fw-semibold text-nowrap ms-2">
+                <% if(avg){ %>
+                  <i class="fa-solid fa-star text-warning me-1"></i><%= avg %>
+                <% } else { %>
+                  <span class="text-muted">New</span>
+                <% } %>
+              </div>
+            </div>
+            <p class="card-text text-muted small mb-1"><%= listing.location %>, <%= listing.country %></p>
+            <p class="card-price mb-0">
+              <span class="price-val fw-bold">&#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : 0 %></span>
+              <span class="price-suffix text-muted small">/ night</span>
+              <span class="tax-info small text-muted">&nbsp;&nbsp;+18% GST</span>
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  <% } %>
+</div>
+
+<!-- Pagination (9 per page) -->
+<% if(totalPages > 1){ %>
+  <nav aria-label="Pages" class="mt-4 mb-3">
+    <ul class="pagination justify-content-center flex-wrap">
+      <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+        <a class="page-link" href="<%= qs({ page: page - 1 }) %>">Previous</a>
+      </li>
+      <% for(let i = 1; i <= totalPages; i++){ %>
+        <% if(i === 1 || i === totalPages || Math.abs(i - page) <= 2){ %>
+          <li class="page-item <%= i === page ? 'active' : '' %>">
+            <a class="page-link" href="<%= qs({ page: i }) %>"><%= i %></a>
+          </li>
+        <% } else if(Math.abs(i - page) === 3){ %>
+          <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+        <% } %>
+      <% } %>
+      <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+        <a class="page-link" href="<%= qs({ page: page + 1 }) %>">Next</a>
+      </li>
+    </ul>
+  </nav>
+<% } %>
+
+<!-- Tax Toggle JavaScript -->
+<script>
+  let taxSwitch = document.getElementById("taxSwitch");
+  if (taxSwitch) taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (let info of taxInfo) {
+      if (taxSwitch.checked) {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+</script>

@@ -1,0 +1,54 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-5">
+  <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+      <h3 class="fw-bold mb-3 text-center">Sign Up on TripNest</h3>
+      <form action="/signup" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label class="form-label fw-semibold small d-block">I want to join as</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="role" id="roleUser" value="user" <%= role === "user" ? "checked" : "" %>>
+            <label class="form-check-label" for="roleUser">User (book &amp; review)</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="role" id="roleOwner" value="owner" <%= role === "owner" ? "checked" : "" %>>
+            <label class="form-check-label" for="roleOwner">Owner (add stays)</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="username" class="form-label fw-semibold small">Username</label>
+          <input type="text" name="username" id="username" class="form-control rounded-3" placeholder="Enter username" minlength="3" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold small">Email</label>
+          <input type="email" name="email" id="email" class="form-control rounded-3" placeholder="name@example.com" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label fw-semibold small">Password</label>
+          <input type="password" name="password" id="password" class="form-control rounded-3" placeholder="At least 8 characters" minlength="8" required>
+        </div>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label fw-semibold small">Confirm Password</label>
+          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control rounded-3" placeholder="Re-enter password" required>
+          <div class="invalid-feedback">Passwords do not match</div>
+        </div>
+        <button class="btn btn-rose w-100 rounded-3 py-2 fw-semibold">Sign Up</button>
+      </form>
+      <div class="text-center mt-3 small text-muted">
+        Already have an account? <a href="/login" class="text-danger text-decoration-none fw-bold">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // confirm password must match password
+  (() => {
+    const pw = document.getElementById("password");
+    const cpw = document.getElementById("confirmPassword");
+    const check = () => cpw.setCustomValidity(cpw.value === pw.value ? "" : "Passwords do not match");
+    pw.addEventListener("input", check);
+    cpw.addEventListener("input", check);
+  })();
+</script>

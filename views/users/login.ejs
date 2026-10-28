@@ -1,0 +1,23 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-5">
+  <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+      <h3 class="fw-bold mb-3 text-center">Login to TripNest</h3>
+      <form action="/login" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold small">Email</label>
+          <input type="email" name="email" id="email" class="form-control rounded-3" placeholder="name@example.com" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label fw-semibold small">Password</label>
+          <input type="password" name="password" id="password" class="form-control rounded-3" placeholder="Enter password" required>
+        </div>
+        <button class="btn btn-rose w-100 rounded-3 py-2 fw-semibold">Login</button>
+      </form>
+      <div class="text-center mt-3 small text-muted">
+        Don't have an account? <a href="/signup" class="text-danger text-decoration-none fw-bold">Sign up</a>
+      </div>
+    </div>
+  </div>
+</div>
